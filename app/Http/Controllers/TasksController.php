@@ -49,17 +49,15 @@ class TasksController extends Controller
         return view('tasks.edit', compact('task'));
     }
 
-    public function update(Request $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
 
         UpdateCommand::new(
             $task,
-            $request->validate([
-                'description' => 'required',
-            ])
+            $request->validated()
         )->execute();
 
-        return redirect()->route('tasks.index');
+        return back()->withSuccess('Task actualizada correctamente');
     }
 
     public function destroy(Task $task)

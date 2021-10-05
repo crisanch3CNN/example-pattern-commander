@@ -5,6 +5,13 @@
         </h2>
     </x-slot>
 
+    @if ($alertFm = Session::get('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+        <span class="block sm:inline text-center">{{ $alertFm }}</span>
+    </div>
+    @endif
+
+
     <div>
         <div class="max-w-4xl mx-auto py-10 sm:px-6 lg:px-8">
             <div class="mt-5 md:mt-0 md:col-span-2">
