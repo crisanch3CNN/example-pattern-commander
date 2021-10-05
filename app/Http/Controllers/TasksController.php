@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use App\Services\Commands\Tasks\UpdateCommand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,9 +49,15 @@ class TasksController extends Controller
         return view('tasks.edit', compact('task'));
     }
 
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(Request $request, Task $task)
     {
-        $task->update($request->validated());
+
+        UpdateCommand::new(
+            $task,
+            $request->validate([
+                'description' => 'required',
+            ])
+        )->execute();
 
         return redirect()->route('tasks.index');
     }
